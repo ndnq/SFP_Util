@@ -16,7 +16,7 @@ Connect the device to the computer and open a terminal of your choosing eg. Tera
 - tryWriting - Checks to which adresses you are able to write
 - setDeviceAddres - Sets the I2C addres of the device we are reading/writing from (default 0xA0(160))
 - getInfo - Prints basic information about the inserted device
-- getRaw(startAdd,stopAdd) - Prints the contents of the entire memory from addres startAdd to addres stopAdd
+- getRaw(startAdd,stopAdd) - Prints the contents of the entire memory from addres startAdd to addres stopAdd in a .csv friendly format (read values are in hexadecimal)
 - getEncoding - Prints the encoding type
 - getIdentifier - Prints the Identifier of the device
 - getExtIdentifier - Prints the Extended Identifier of the device
@@ -26,5 +26,6 @@ Connect the device to the computer and open a terminal of your choosing eg. Tera
 
 
 ### Additional information
-##### All input arguments are to be in decimal format without any spacing for example write8(3,56)
+##### All input arguments are to be in decimal format without any spacing for example write8(3,56).
+##### All output data is to be read as decimal if not stated otherwise.
 
