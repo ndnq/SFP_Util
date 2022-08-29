@@ -59,9 +59,8 @@ bool handleMsg(command message){
 
     if(message.cmd.equals(F("write16")) && (message.arg1 != -1)){
         write16B(message.arg1,message.arg2);
-        Serial.println("Wrote to target, now reading ");
-        Serial.print(message.arg2);
-        Serial.print(read16B(message.arg1));
+        Serial.print("Wrote to target, now reading :");
+        Serial.println(read16B(message.arg1));
         return;
     }
 
@@ -131,7 +130,8 @@ bool handleMsg(command message){
         return;
     }
 
-    
+    Serial.println("Unknown command. Type \"help\" for a list of commands");
+
 }
 
 void getIdentifier(){
