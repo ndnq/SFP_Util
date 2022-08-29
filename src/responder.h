@@ -15,5 +15,6 @@ void getVendorName();
 void getVendorPartNumber();
 void getVendorRevision();
 void getVendorSerialNumber();
+void getVendorSpecificInformation();
 
 #endif

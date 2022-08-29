@@ -34,6 +34,7 @@ bool handleMsg(command message){
         getVendorPartNumber();
         getVendorRevision();
         getVendorSerialNumber();
+        getVendorSpecificInformation();
         return;
     }   
 
@@ -85,7 +86,9 @@ bool handleMsg(command message){
         Serial.println("getInfo, getConnector, getIdentifier, getExtIdentifier, tryWriting");
         Serial.println("setDeviceAddres((dec)add), getEncoding, getSignalingRate");
         Serial.println("getVendorName, getVendorPartNumber, getVendorRevision, getVendorSerialNumber");
-        Serial.println("readASCII(startADD,endADD)");
+        Serial.println("readASCII(startADD,endADD), getVendorSpecificInformation");
+
+        return;
     }
 
     if (message.cmd.equals(F("getSignalingRate")))
@@ -129,6 +132,13 @@ bool handleMsg(command message){
         getVendorSerialNumber();
         return;
     }
+
+    if (message.cmd.equals(F("getVendorSpecificInformation")))
+    {
+        getVendorSpecificInformation();
+        return;
+    }
+    
 
     Serial.println("Unknown command. Type \"help\" for a list of commands");
 
@@ -413,4 +423,10 @@ void getVendorRevision(){
 void getVendorSerialNumber(){
     Serial.print(F("Vendor Serial Nubmer: "));
     Serial.println(readText(68,83));
+}
+
+void getVendorSpecificInformation(){
+    Serial.print("Vendor reserved: ");
+    Serial.println(readText(128,255));
+    return;
 }
