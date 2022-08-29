@@ -4,7 +4,7 @@ Simple tool allowing for easy interaction with SFP modules trough a serial port
 
 ## How to use:
 
-Connect the device to the computer and open a terminal of your choosing eg. TeraTerm, PuTTy. The device listens for commands. Everything that's sent not longer than 5ms apart is considered to be one command.
+Connect the device to the computer and open a terminal of your choosing eg. TeraTerm, PuTTy. The device listens for commands. Everything that's sent not longer than 5ms apart is considered as one command.
 
 ## List of commands
 - help - Prints available commands
