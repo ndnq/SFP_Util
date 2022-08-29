@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\libraries\\EEPROM\\src",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\libraries\\HID\\src",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\libraries\\SoftwareSerial\\src",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src",
+                "C:\\Programy\\Arduino\\hardware\\arduino\\avr\\variants\\circuitplay32u4"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USBCON"
+            ],
+            "compilerPath": "C:\\Programy\\Arduino\\hardware\\tools\\avr\\bin\\avr-gcc.exe",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
