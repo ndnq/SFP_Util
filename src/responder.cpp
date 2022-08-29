@@ -18,8 +18,8 @@ bool handleMsg(command message){
         return;
     }
 
-    if(message.cmd.equals(F("getRaw"))){
-        printRawData();
+    if(message.cmd.equals(F("getRaw")) && message.arg1 != -1 && message.arg2 != -1){
+        printRawData(message.arg1, message.arg2);
         return;
     }
 

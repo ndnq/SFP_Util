@@ -52,16 +52,14 @@ void write16B(int addr, int value)
     }
 
 
-    void printRawData(){
-        Serial.write("DATA START\n");
+    void printRawData(uint8_t startAdd,uint8_t stopADD){
         Serial.println("Addres, Value");
-for (size_t i = 0; i <= 96+32; i=i+1)
-{
+for (size_t i = startAdd; i <= stopADD; i=i+1)
+        {
         Serial.print(i,DEC);
         Serial.print(", ");
         Serial.println(read8B(i),HEX);
-}
-        Serial.write("DATA END\n");
+        }
     }
 
     String readText(int start, int end){
