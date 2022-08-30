@@ -17,5 +17,6 @@ void getVendorRevision();
 void getVendorSerialNumber();
 void getVendorSpecificInformation();
 void getLinkLength();
+void clearScreen();
 
 #endif

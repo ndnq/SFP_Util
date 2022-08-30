@@ -146,6 +146,11 @@ bool handleMsg(command message){
         getLinkLength();
         return;
     }
+
+    if(message.cmd.equals("cls")){
+        clearScreen();
+        return;
+    }
     
 
     Serial.println("Unknown command. Type \"help\" for a list of commands");
@@ -456,13 +461,26 @@ void getLinkLength(){
     Serial.print(read8B(17)*10);
     Serial.println(F("m"));
 
-    Serial.print(F("Length (OM4 (copper cable)): "));
+    Serial.print(F("Length (OM4 (Active Cable or Copper)): "));
     Serial.print(read8B(18)*10);
     Serial.print(F("m ("));
     Serial.print(read8B(18));
     Serial.println(F("m)"));
 
-    Serial.print(F("Length (OM3): "));
-    Serial.print(read8B(19)*10);
-    Serial.println(F("m"));
+    Serial.print(F("Length (OM3 (Active Cable or Copper)): "));
+    uint8_t raw  = read8B(19);
+    uint8_t multiplier = raw & 0b00000011;
+    uint8_t base = (raw & 0b11111100)>>2;
+    Serial.print(raw*10);
+    Serial.print(F("m ("));
+    if(multiplier == 0b00){Serial.print(base*0.1f);}
+    if(multiplier == 0b01){Serial.print(base);}
+    if(multiplier == 0b10){Serial.print(base*10);}
+    if(multiplier == 0b11){Serial.print(base*100);}
+    Serial.println(F("m)"));
+}
+
+void clearScreen(){
+    Serial.print("\033[2J");
+    Serial.print("\033[H");
 }
