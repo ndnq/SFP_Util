@@ -17,7 +17,7 @@ Connect the device to the computer and open a terminal of your choosing eg. Tera
 - getRaw(startAdd,stopAdd) - Prints the contents of the entire memory from address startAdd to address stopAdd in a .csv friendly format (read values are in hexadecimal)
 - readASCII(startADD, endADD) - Tries to decode a string of ASCII characters located from "startADD" to "endADD"
 - tryWriting - Checks to which adresses you are able to write
-- setDeviceAddres - Sets the I2C address of the device we are reading/writing from (default 0xA0(160))
+- setDeviceAddress - Sets the I2C address of the device we are reading/writing from (default 0xA0(160))
 - getInfo - Prints basic information about the inserted device
 - getEncoding - Prints the encoding type
 - getIdentifier - Prints the Identifier of the device
@@ -26,6 +26,7 @@ Connect the device to the computer and open a terminal of your choosing eg. Tera
 - getSignalingRate - Prints the signaling rate of the device
 - getRateIdentifier - Prints the Rate Identifier
 - getVendorSpecificInformation - Tries to interpret data saved in a memory region reserved to the manufacturer
+- getLinkLength - Prints supported link lengths
 
 
 ### Additional information

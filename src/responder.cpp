@@ -10,7 +10,7 @@ bool handleMsg(command message){
         return;
     }
     
-    if (message.cmd.equals(F("setDeviceAddres"))&& (message.arg1 != -1))
+    if (message.cmd.equals(F("setDeviceAddress"))&& (message.arg1 != -1))
     {
         Serial.println(insertAdd);
         insertAdd = message.arg1>>1;        //162 for A2 160 for A0
@@ -34,6 +34,8 @@ bool handleMsg(command message){
         getVendorPartNumber();
         getVendorRevision();
         getVendorSerialNumber();
+        getLinkLength();
+
         getVendorSpecificInformation();
         return;
     }   
@@ -84,7 +86,7 @@ bool handleMsg(command message){
         Serial.println("List of available commands: ");
         Serial.println("help, read16() read8(add),write8(add,dat), getRaw");
         Serial.println("getInfo, getConnector, getIdentifier, getExtIdentifier, tryWriting");
-        Serial.println("setDeviceAddres((dec)add), getEncoding, getSignalingRate");
+        Serial.println("setDeviceAddress(add), getEncoding, getSignalingRate");
         Serial.println("getVendorName, getVendorPartNumber, getVendorRevision, getVendorSerialNumber");
         Serial.println("readASCII(startADD,endADD), getVendorSpecificInformation");
 
@@ -136,6 +138,12 @@ bool handleMsg(command message){
     if (message.cmd.equals(F("getVendorSpecificInformation")))
     {
         getVendorSpecificInformation();
+        return;
+    }
+
+    if (message.cmd.equals(F("getLinkLength")))
+    {
+        getLinkLength();
         return;
     }
     
@@ -312,7 +320,7 @@ void tryWriting(){
 
 void getEncoding(){
 
-    Serial.print("Encoding Type: ");
+    Serial.print(F("Encoding Type: "));
      switch (read8B(11))
         {
         case 0:
@@ -429,4 +437,32 @@ void getVendorSpecificInformation(){
     Serial.print("Vendor reserved: ");
     Serial.println(readText(128,255));
     return;
+}
+
+void getLinkLength(){
+    Serial.print(F("Length (SMF): "));
+    Serial.print(read8B(14));
+    Serial.println(F("Km"));
+
+    Serial.print(F("Length (SMF): "));
+    Serial.print(read8B(15)*100);
+    Serial.println(F("m"));
+
+    Serial.print(F("Length (50 um, OM2): "));
+    Serial.print(read8B(16)*10);
+    Serial.println(F("m"));
+
+    Serial.print(F("Length (62.5 um, OM1): "));
+    Serial.print(read8B(17)*10);
+    Serial.println(F("m"));
+
+    Serial.print(F("Length (OM4 (copper cable)): "));
+    Serial.print(read8B(18)*10);
+    Serial.print(F("m ("));
+    Serial.print(read8B(18));
+    Serial.println(F("m)"));
+
+    Serial.print(F("Length (OM3): "));
+    Serial.print(read8B(19)*10);
+    Serial.println(F("m"));
 }
