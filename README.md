@@ -1,6 +1,7 @@
 
 # SFP_Util
-Simple tool allowing for easy interaction with SFP modules trough a serial port
+Simple tool allowing for easy interaction with SFP modules trough a serial port.
+It's meant to be used on [SATA_SFP](https://github.com/sinara-hw/SATA_SFP)
 
 ## How to use:
 
