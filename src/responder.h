@@ -18,5 +18,12 @@ void getVendorSerialNumber();
 void getVendorSpecificInformation();
 void getLinkLength();
 void clearScreen();
-
+void getVendorDate();
+void tryAddressChange(uint8_t mem);
+void readTemp();
+void readVoltage();
+void readTxBias();
+void readTxOUT();
+void readRxIn();
+void readLasTemp();
 #endif

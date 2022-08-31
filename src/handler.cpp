@@ -1,7 +1,7 @@
 #include "handler.h"    
 #include "responder.h"
 
-#define transmiTtime 5000000UL
+#define transmiTtime 500000UL
 void printRawData();
 
 
@@ -22,7 +22,6 @@ void handler::checkForEvents(){
     if (micros()-timeStamp > transmiTtime)
     {
         //Here goes the code that executes once per transmitTime clock cycles
-
         timeStamp = micros();
 
     }
@@ -31,18 +30,16 @@ void handler::checkForEvents(){
     if (Serial.available() > 0)
     {
         
-        String dataIn = Serial.readString();            //Reads incoming data as ASCII characters
-        for (size_t i = 0; i < dataIn.length(); i++)    //Strip them of nl or rc
+        String dataIn = Serial.readStringUntil('\n');            //Reads incoming data as ASCII characters
+        for (size_t i = 0; i < dataIn.length(); i++)    //Strip them of nl or rc if there are any
          {
-            if (dataIn.charAt(i)=='\n'||dataIn.charAt(i)=='\r')
-            {
-                dataIn.remove(i,1);
-            }
-          }
-    
+        if (dataIn.charAt(i)=='\n'||dataIn.charAt(i)=='\r')
+        {
+            dataIn.remove(i,1);
+        }
+         }
         handleMsg(parseCommand(dataIn));
     }
-
 }
 
 //Extracts arguments from input command ex. write8(8,25) -> 8,25

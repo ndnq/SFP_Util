@@ -2,6 +2,7 @@
 #define HANDLER_H
 #include <Arduino.h>
 #include "readWriteUtils.h"
+#include "responder.h"
 #include "command.h"
 
 extern int insertAdd;
@@ -12,6 +13,7 @@ class handler {
     String handler::extractCmd(String dataIn);
     command handler::parseCommand(String dataIn);
     String handler::trimStringOut(String strIn,char f, char t);
+    String readStringUtil2(char chars[]);
     unsigned long timeStamp;
   public:
     handler(unsigned long currentTime);

@@ -34,11 +34,21 @@ bool handleMsg(command message){
         getVendorPartNumber();
         getVendorRevision();
         getVendorSerialNumber();
+        getVendorDate();
         getLinkLength();
 
         getVendorSpecificInformation();
         return;
-    }   
+    }
+    if(message.cmd.equals(F("getDiagnostics"))){
+        readTemp();
+        readVoltage();
+        readTxBias();
+        readTxOUT();
+        readRxIn();
+        readLasTemp();
+        return;
+    } 
 
     if (message.cmd.equals(F("getEncoding")))
     {
@@ -83,12 +93,16 @@ bool handleMsg(command message){
     }
 
     if(message.cmd.equals(F("help"))){
-        Serial.println("List of available commands: ");
-        Serial.println("help, read16() read8(add),write8(add,dat), getRaw");
-        Serial.println("getInfo, getConnector, getIdentifier, getExtIdentifier, tryWriting");
-        Serial.println("setDeviceAddress(add), getEncoding, getSignalingRate");
-        Serial.println("getVendorName, getVendorPartNumber, getVendorRevision, getVendorSerialNumber");
-        Serial.println("readASCII(startADD,endADD), getVendorSpecificInformation");
+        Serial.println(F("List of available commands: "));
+        Serial.println(F("help, read16() read8(add),write8(add,dat), getRaw"));
+        Serial.println(F("getInfo, getConnector, getIdentifier, getExtIdentifier, tryWriting"));
+        Serial.println(F("setDeviceAddress(add), getEncoding, getSignalingRate"));
+        Serial.println(F("getVendorName, getVendorPartNumber, getVendorRevision, getVendorSerialNumber"));
+        Serial.println(F("readASCII(startADD,endADD), getVendorSpecificInformation, getVendorDate"));
+        Serial.println(F("tryAddressChange, readTemperature, readVoltage, readTxBias"));
+        Serial.println(F("readTxOut, readRxIn, readLasTemp, getDiagnostics"));
+        
+        Serial.println(F("More on: https://github.com/ndnq/SFP_Util"));
 
         return;
     }
@@ -151,9 +165,56 @@ bool handleMsg(command message){
         clearScreen();
         return;
     }
-    
 
-    Serial.println("Unknown command. Type \"help\" for a list of commands");
+    if (message.cmd.equals(F("getVendorDate")))
+    {
+        getVendorDate();
+        return;
+    }
+
+    if (message.cmd.equals(F("tryAddressChange")) && message.arg1 != -1)
+    {
+        tryAddressChange(message.arg1);
+        return;
+    }
+
+    if (message.cmd.equals(F("readTemperature")))
+    {
+        readTemp();
+        return;
+    }
+
+    if(message.cmd.equals(F("readVoltage")))
+    {
+        readVoltage();
+        return;
+    }
+    
+    if(message.cmd.equals(F("readTxBias")))
+    {
+        readTxBias();
+        return;
+    }
+    
+    if(message.cmd.equals(F("readTxOut")))
+    {
+        readTxOUT();
+        return;
+    }    
+    
+    if(message.cmd.equals(F("readRxIn")))
+    {
+        readRxIn();
+        return;
+    }
+
+    if(message.cmd.equals(F("readLasTemp")))
+    {
+        readLasTemp();
+        return;
+    }    
+
+    Serial.println(F("Unknown command. Type \"help\" for a list of commands"));
 
 }
 
@@ -483,4 +544,130 @@ void getLinkLength(){
 void clearScreen(){
     Serial.print("\033[2J");
     Serial.print("\033[H");
+}
+
+void getVendorDate(){
+    Serial.print(F("Vendor Date: "));
+    Serial.print(readText(84,85));
+    Serial.write('.');
+    Serial.print(readText(86,87));
+    Serial.write('.');
+    Serial.println(readText(88,89));
+}
+
+void tryAddressChange(uint8_t mem){
+    if (mem == 1 || mem == 0)
+    {
+        preformAddressChange((bool)mem);
+        if (mem==1)
+        {
+            Serial.println(F("Addres now 0xA2"));
+            insertAdd = 0xA2 >> 1;
+        }else{
+            Serial.println(F("Addres now 0xA0"));
+            insertAdd = 0xA0 >> 1;
+        }
+        
+    }else{
+        Serial.println(F("Incorrent Argument"));
+    }
+}
+
+void readTemp()
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("Temperature [C]: "));
+    Serial.println(readFixedPointNumberS(96,97)/256.0,3);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+}
+
+void readVoltage(){
+
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("Supply Voltage [mV]: "));
+    Serial.println(readFixedPointNumberUS(98,99)/10.0f,1);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+}
+
+//Read TX bias Current
+void readTxBias()
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("TX bias Current [mA]: "));
+    Serial.println(readFixedPointNumberUS(100,101)/500.0f,2);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+
+}
+//Read TX output Power
+void readTxOUT()
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("TX output power [mW]: "));
+    Serial.println(readFixedPointNumberUS(102,103)/10000.0f,4);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+}
+//Read RX recieved optical Power
+void readRxIn()
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("RX input power [mW]: "));
+    Serial.println(readFixedPointNumberUS(104,105)/10000.0f,4);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+}
+//Laser Temperature
+void readLasTemp()
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("Laser Temperature: "));
+    Serial.println(readFixedPointNumberS(106,107)/256.0,3);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+
 }

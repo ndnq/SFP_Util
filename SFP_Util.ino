@@ -9,7 +9,7 @@
     void setup() {
       Wire.begin();
       Serial.begin(9600);                 // Start Serial at 9600baud
-      Serial.setTimeout(5);               //Maximim number of ms between revieving data to it to be considered continuous
+      Serial.setTimeout(1000);               //Maximim number of ms between revieving data to it to be considered continuous
       Handler1 = *new handler(micros());
       delay(5000);
     }
