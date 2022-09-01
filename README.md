@@ -32,7 +32,7 @@ Connect the device to the computer and open a terminal of your choosing (eg. PuT
 - getVendorSpecificInformation - Tries to interpret data saved in a memory region reserved to the manufacturer
 - getLinkLength - Prints supported link lengths
 - getVendorDate - Prints vendor specified manufacturing date
-- tryAddressChange(interfae) - In some SFP's it is necessary to preform this operation to have access to the diagnostic interface. Arguments are: 0 for 2-wire interface ID memory page, 1 for Digital Diagnostic memory page
+- tryAddressChange(interface) - In some SFP's it is necessary to preform this operation to have access to the diagnostic interface. Arguments are: 0 for 2-wire interface ID memory page, 1 for Digital Diagnostic memory page
 - readTemperature - Reads Internally measured module temperature [C]
 - readVoltage - Reads Internally measured supply voltage in transceiver [mV]
 - readTxBias - Reads Internally measured TX Bias Current [mA]
@@ -47,5 +47,4 @@ Connect the device to the computer and open a terminal of your choosing (eg. PuT
 ##### All input arguments are to be in decimal format without any spacing for example write8(3,56).
 ##### All output data is to be read as decimal if not stated otherwise.
 ##### Unsuccessful reads result in 0xFF and not implemented diagnostic features read 0
-##### Many devices are write protected, thus by using
 
