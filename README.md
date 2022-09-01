@@ -17,7 +17,7 @@ Connect the device to the computer and open a terminal of your choosing (eg. PuT
 - getRaw(startAdd,stopAdd) - Prints the contents of the entire memory from address startAdd to address stopAdd in a .csv friendly format (read values are in hexadecimal)
 - readASCII(startADD, endADD) - Tries to decode a string of ASCII characters located from "startADD" to "endADD"
 - getDiagnostics - Prints available diagnostic information
-- monitor(mode) - Sets diagnostic data to be monitored (0=Device Temp, 1=Voltage, 2=TxBias, 3=TxPower, 4=RxPower, 5=LaserTemp, 6=TECCurrent)
+- monitor(mode) - Sets diagnostic data to be monitored (0=Internal Device Temperature, 1=Internal Supply Voltage, 2=TxBias, 3=TxPower, 4=RxPower, 5=Laser Temperature, 6=TEC Current)
 - monitor - Constantly transmits set diagnostic information (order of the data is as above 0->6)
 - escape - Stops the monitoring command
 - tryWriting - Checks to which addresses you are able to write. Many sectors of data are write protected this allows you to check which ones aren't

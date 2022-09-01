@@ -506,7 +506,7 @@ void getRateIdentifier(){
     }
 }
 
-void readASCII(uint8_t start, uint8_t end){
+void readASCII(int start, int end){
     Serial.println(readText(start,end));
     return;
 }
@@ -588,7 +588,7 @@ void getVendorDate(){
     Serial.println(readText(88,89));
 }
 
-void tryAddressChange(uint8_t mem){
+void tryAddressChange(int mem){
     if (mem == 1 || mem == 0)
     {
         preformAddressChange((bool)mem);
