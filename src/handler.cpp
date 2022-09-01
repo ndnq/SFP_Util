@@ -38,6 +38,7 @@ void handler::checkForEvents()
             }
          }
         handleMsg(parseCommand(dataIn));
+        Serial.print(">");
     }
 }
 
