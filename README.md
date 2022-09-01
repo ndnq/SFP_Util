@@ -12,8 +12,8 @@ Connect the device to the computer and open a terminal of your choosing (eg. PuT
 - help - Prints available commands
 - read8(address)  - Reads 8bytes and returns the result in hexadecimal format
 - read16(address) - Reads 8bytes and returns the result in hexadecimal format
-- write8(address(DEC), value(DEC))  - Writes 8bits to the given address
-- write16(address(DEC), value(DEC)) - Writes 16bits to the given address
+- write8(address, value)  - Writes 8bits to the given address
+- write16(address, value) - Writes 16bits to the given address
 - getRaw(startAdd,stopAdd) - Prints the contents of the entire memory from address startAdd to address stopAdd in a .csv friendly format (read values are in hexadecimal)
 - readASCII(startADD, endADD) - Tries to decode a string of ASCII characters located from "startADD" to "endADD"
 - getDiagnostics - Prints available diagnostic information
