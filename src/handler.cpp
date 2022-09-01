@@ -1,14 +1,15 @@
 #include "handler.h"    
 #include "responder.h"
 
-#define transmiTtime 500000UL
+#define transmiTtime 2000000UL
 void printRawData();
 
-
+bool CursorState;
 
 handler::handler(unsigned long currentTime)
 {
     timeStamp = currentTime;
+    
 }
 
 handler::handler()
@@ -23,7 +24,7 @@ void handler::checkForEvents(){
     {
         //Here goes the code that executes once per transmitTime clock cycles
         timeStamp = micros();
-
+        
     }
     
     //Recieve serial data

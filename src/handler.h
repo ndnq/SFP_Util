@@ -4,8 +4,7 @@
 #include "readWriteUtils.h"
 #include "command.h"
 
-extern int insertAdd;
-
+extern uint8_t insertAdd;
 class handler {
   private:
     String handler::extractArg(String dataIn);
@@ -14,8 +13,16 @@ class handler {
     String handler::trimStringOut(String strIn,char f, char t);
     String readStringUtil2(char chars[]);
     unsigned long timeStamp;
-  public:
+  public: 
     bool escape = false;
+    bool Tb = false;
+    bool Vb = false;
+    bool TxBb = false;
+    bool TxPb = false;
+    bool RxPb = false;
+    bool LsTb = false;
+    bool TECb = false;
+
     handler(unsigned long currentTime);
     handler();
     void checkForEvents();

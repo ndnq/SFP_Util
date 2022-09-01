@@ -229,6 +229,13 @@ bool handleMsg(command message){
     if(message.cmd.equals(F("escape")))
     {
         Handler.escape = true;
+    Handler.Tb = false;
+    Handler.Vb = false;
+    Handler.TxBb = false;
+    Handler.TxPb = false;
+    Handler.RxPb = false;
+    Handler.LsTb = false;
+    Handler.TECb = false;
         return;
     }
 
@@ -715,19 +722,50 @@ void readTECCurrent()
 
 }
 
-void monitorData(uint8_t arg1)
+void monitorData(int arg1)
 {
-    Handler.escape = false;
-    while (!Handler.escape)
+    if (arg1 == -1)
     {
-        diagReadout(arg1);
-        Handler.checkForEvents();
+        Handler.escape = false;
+        while (!Handler.escape)
+        {
+         diagReadout(arg1);
+         Handler.checkForEvents();
+        }
     }
+    switch (arg1)
+    {
+    case 0:
+        Handler.Tb = true;
+        break;
+    case 1:
+        Handler.Vb = true;
+        break;
+    case 2:
+        Handler.TxBb = true;
+        break;
+    case 3:
+        Handler.TxPb = true;
+        break;
+    case 4:
+        Handler.RxPb = true;
+        break;
+    case 5:
+        Handler.LsTb = true;
+        break;
+    case 6:
+        Handler.TECb = true;
+        break;
+    default:
+        break;
+    }
+    
     
 }
 
 void diagReadout(uint8_t arg1)
 {
+    bool notfirst = false;
     bool revert = false;
     if (insertAdd == 80)
     {
@@ -735,71 +773,55 @@ void diagReadout(uint8_t arg1)
         revert = true;
     }
 
-    if (arg1 == 0)
+    if (Handler.Tb)
     {
-    Serial.println(readFixedPointNumberS(96,97)/256.0f,3); //Temp
-    if(revert)
-    {
-        insertAdd = 80;
+    Serial.print(readFixedPointNumberS(96,97)/256.0f,3); //Temp
+    notfirst=true;
     }
-        return;
-
-    }
-    if (arg1 == 1)
+    if (Handler.Vb)
     {
-    Serial.println(readFixedPointNumberUS(98,99)/10.0f,1);
-    if(revert)
-    {
-        insertAdd = 80;
+    if(notfirst){Serial.print(", ");}
+    notfirst=true;
+    Serial.print(readFixedPointNumberUS(98,99)/10.0f,1);
     }
-        return;
-    }
-    if (arg1 == 2)
+    if (Handler.TxBb)
     {
-    Serial.println(readFixedPointNumberUS(100,101)/500.0f,2);
-    if(revert)
-    {
-        insertAdd = 80;
+    if(notfirst){Serial.print(", ");}
+    notfirst=true;
+    Serial.print(readFixedPointNumberUS(100,101)/500.0f,2);
     }
-        return;
-    }
-    if (arg1 == 3)
+    if (Handler.TxPb)
     {
-    Serial.println(readFixedPointNumberUS(102,103)/10000.0f,4);
-    if(revert)
-    {
-        insertAdd = 80;
+    if(notfirst){Serial.print(", ");}
+    notfirst=true;
+    Serial.print(readFixedPointNumberUS(102,103)/10000.0f,4);
     }
-        return;
-    }
-    if (arg1 == 4)
+    if (Handler.RxPb)
     {
-    Serial.println(readFixedPointNumberUS(104,105)/10000.0f,4);
-    if(revert)
-    {
-        insertAdd = 80;
+    if(notfirst){Serial.print(", ");}
+    notfirst=true;
+    Serial.print(readFixedPointNumberUS(104,105)/10000.0f,4);
     }
-        return;
-    }
-        if (arg1 == 5)
+    if (Handler.LsTb)
     {
-    Serial.println(readFixedPointNumberS(106,107)/256.0f,3);
+    if(notfirst){Serial.print(", ");}
+    notfirst=true;
+    Serial.print(readFixedPointNumberS(106,107)/256.0f,3);
+    }
+    if (Handler.TECb)
+    {
+    if(notfirst){Serial.print(", ");}
+    notfirst=true;
+    Serial.print(readFixedPointNumberS(108,109)/10.0f,3);
+    }
+    Serial.print("\n");
     if(revert)
     {
         insertAdd = 80;
     }
         return;
     }
-        if (arg1 == 6)
-    {
-    Serial.println(readFixedPointNumberS(108,109)/10.0f,3);
-    if(revert)
-    {
-        insertAdd = 80;
-    }
-        return;
-    }
-    Serial.print(readFixedPointNumberS(96,97)/256.0f,3);
+/*    Serial.print(readFixedPointNumberS(96,97)/256.0f,3);
     Serial.print(", ");
     Serial.print(readFixedPointNumberUS(98,99)/10.0f,1);
     Serial.print(", ");
@@ -812,10 +834,4 @@ void diagReadout(uint8_t arg1)
     Serial.print(readFixedPointNumberS(106,107)/256.0f,3);
     Serial.print(", ");
     Serial.println(readFixedPointNumberS(108,109)/10.0f,3);
-
-
-    if(revert)
-    {
-        insertAdd = 80;
-    }
-}
+*/
