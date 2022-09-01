@@ -24,26 +24,24 @@ void write16B(int addr, int value)
     
    unsigned int  read16B(int addr)
     {
-
     Wire.beginTransmission(insertAdd);
     Wire.write(addr);   
     Wire.endTransmission();
     Wire.requestFrom(insertAdd, 2, 1); 
     unsigned int value = Wire.read()<<8;
     value |= Wire.read();
-   delay(10);
+   delay(1);
     return value;
     }
 
-       uint8_t read8B(int addr)
+    uint8_t read8B(int addr)
     {
-
     Wire.beginTransmission(insertAdd);
     Wire.write(addr);   
     Wire.endTransmission();
     Wire.requestFrom(insertAdd, 1, 1); 
     unsigned int value = Wire.read();
-   delay(10);
+    delay(1);
     return value;
     }
 
@@ -96,7 +94,7 @@ int16_t readFixedPointNumberS(uint8_t addRes1,uint8_t addRes2)
 
 uint16_t readFixedPointNumberUS(uint8_t addRes1,uint8_t addRes2)
 {
-    int16_t value = read8B(addRes1);
+    uint16_t value = read8B(addRes1);
     value = value<<8;
     value = value | read8B(addRes2);
     return value;

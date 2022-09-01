@@ -19,12 +19,14 @@ bool handleMsg(command message){
         return;
     }
 
-    if(message.cmd.equals(F("getRaw")) && message.arg1 != -1 && message.arg2 != -1){
+    if(message.cmd.equals(F("getRaw")) && message.arg1 != -1 && message.arg2 != -1)
+    {
         printRawData(message.arg1, message.arg2);
         return;
     }
 
-    if(message.cmd.equals(F("getInfo"))){
+    if(message.cmd.equals(F("getInfo")))
+    {
         getIdentifier();
         getExtIdentifier();
         getConnector();
@@ -41,7 +43,8 @@ bool handleMsg(command message){
         getVendorSpecificInformation();
         return;
     }
-    if(message.cmd.equals(F("getDiagnostics"))){
+    if(message.cmd.equals(F("getDiagnostics")))
+    {
         readTemp();
         readVoltage();
         readTxBias();
@@ -58,17 +61,20 @@ bool handleMsg(command message){
         return;
     }
 
-    if(message.cmd.equals(F("read8")) && (message.arg1 != -1)){
+    if(message.cmd.equals(F("read8")) && (message.arg1 != -1))
+    {
         Serial.println(read8B(message.arg1),HEX);
         return;
     }
 
-    if(message.cmd.equals(F("read16")) && (message.arg1 != -1)){
+    if(message.cmd.equals(F("read16")) && (message.arg1 != -1))
+    {
         Serial.println(read16B(message.arg1),HEX);
         return;
     }
 
-    if(message.cmd.equals(F("write8")) && (message.arg1 != -1)){
+    if(message.cmd.equals(F("write8")) && (message.arg1 != -1))
+    {
         write8B((uint8_t)message.arg1,(uint8_t)message.arg2);
         Serial.println("Wrote to target, now reading");
         //Serial.println(message.arg1);
@@ -77,24 +83,28 @@ bool handleMsg(command message){
         return;
     }
 
-    if(message.cmd.equals(F("write16")) && (message.arg1 != -1)){
+    if(message.cmd.equals(F("write16")) && (message.arg1 != -1))
+    {
         write16B(message.arg1,message.arg2);
         Serial.print("Wrote to target, now reading :");
         Serial.println(read16B(message.arg1));
         return;
     }
 
-    if(message.cmd.equals(F("getIdentifier"))){
+    if(message.cmd.equals(F("getIdentifier")))
+    {
         getIdentifier();
         return;
     }
 
-    if(message.cmd.equals(F("getExtIdentifier"))){
+    if(message.cmd.equals(F("getExtIdentifier")))
+    {
         getExtIdentifier();
         return;
     }
 
-    if(message.cmd.equals(F("getConnector"))){    
+    if(message.cmd.equals(F("getConnector")))
+    {    
         getConnector();
         return;
     }
@@ -230,13 +240,13 @@ bool handleMsg(command message){
     if(message.cmd.equals(F("escape")))
     {
         Handler.escape = true;
-    Handler.Tb = false;
-    Handler.Vb = false;
-    Handler.TxBb = false;
-    Handler.TxPb = false;
-    Handler.RxPb = false;
-    Handler.LsTb = false;
-    Handler.TECb = false;
+        Handler.Tb = false;
+        Handler.Vb = false;
+        Handler.TxBb = false;
+        Handler.TxPb = false;
+        Handler.RxPb = false;
+        Handler.LsTb = false;
+        Handler.TECb = false;
         return;
     }
 

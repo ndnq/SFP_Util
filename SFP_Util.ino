@@ -3,13 +3,12 @@
     #include "src/handler.h"
 
    handler Handler;
-    
-   uint8_t insertAdd = 0xA0>>1; //Device addres has to be shifted one bit right
+   uint8_t insertAdd = 0xA0>>1; //Initial Device address
 
     void setup() {
       Wire.begin();
-      Serial.begin(9600);                 // Start Serial at 9600baud
-      Serial.setTimeout(500);               //Maximim number of ms between revieving data to it to be considered continuous
+      Serial.begin(9600);                   // Start Serial at 9600baud
+      Serial.setTimeout(500);               //Time between revieving data for it to be recognized as a command
       Handler = *new handler(micros());
       delay(5000);
     }

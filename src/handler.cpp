@@ -16,9 +16,8 @@ handler::handler()
 {
 }
 
-
-void handler::checkForEvents(){
-
+void handler::checkForEvents()
+{
     //Do something periodically
     if (micros()-timeStamp > transmiTtime)
     {
@@ -26,7 +25,6 @@ void handler::checkForEvents(){
         timeStamp = micros();
         
     }
-    
     //Recieve serial data
     if (Serial.available() > 0)
     {
@@ -34,10 +32,10 @@ void handler::checkForEvents(){
         String dataIn = Serial.readStringUntil('\n\r');            //Reads incoming data as ASCII characters
         for (size_t i = 0; i < dataIn.length(); i++)    //Strip them of nl or rc if there are any
          {
-        if (dataIn.charAt(i)=='\n'||dataIn.charAt(i)=='\r')
-        {
+            if (dataIn.charAt(i)=='\n'||dataIn.charAt(i)=='\r')
+            {
             dataIn.remove(i,1);
-        }
+            }
          }
         handleMsg(parseCommand(dataIn));
     }
@@ -46,7 +44,7 @@ void handler::checkForEvents(){
 //Extracts arguments from input command ex. write8(8,25) -> 8,25
 
 String handler::extractArg(String dataIn)
-    {
+{
     int argStart=0;
     int argEnd=0;
     for(int i=0; i<(int)dataIn.length(); i++)
@@ -72,12 +70,12 @@ String handler::extractArg(String dataIn)
     }
     dataIn.remove(argEnd,1);
     return dataIn;
-    }
+}
 
 //Extracts command from input command ex write8(25,6) -> write8
 
-    String handler::extractCmd(String dataIn)
-        {
+String handler::extractCmd(String dataIn)
+{
     int argStart=0;
     int argEnd=0;
     for(int i=0; i<(int)dataIn.length(); i++)
@@ -86,7 +84,6 @@ String handler::extractArg(String dataIn)
         {
             argStart = i;
         }
-
     }
     for (int i=0; i<(int)dataIn.length(); i++)
     {
@@ -95,20 +92,15 @@ String handler::extractArg(String dataIn)
             argEnd = i;
         }
     }
-
     if (argStart == 0 && argEnd == 0)
     {
         return dataIn;
     }
-    
-    
     dataIn.remove(argStart,argEnd-argStart+1);    
 
     return dataIn;
-    }
-
+}
 //Parse given command. Accepts templates of cmd | cmd(arg1) | cmd(arg1,arg2)
-
 command handler::parseCommand(String dataIn)
 {
     command returnCmd;
