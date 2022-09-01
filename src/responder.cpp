@@ -1,6 +1,6 @@
 #include "responder.h"
 #include "handler.h"
-
+extern handler Handler;
 
 bool handleMsg(command message){
     
@@ -47,6 +47,7 @@ bool handleMsg(command message){
         readTxOUT();
         readRxIn();
         readLasTemp();
+        readTECCurrent();
         return;
     } 
 
@@ -58,6 +59,11 @@ bool handleMsg(command message){
 
     if(message.cmd.equals(F("read8")) && (message.arg1 != -1)){
         Serial.println(read8B(message.arg1),HEX);
+        return;
+    }
+
+    if(message.cmd.equals(F("read16")) && (message.arg1 != -1)){
+        Serial.println(read16B(message.arg1),HEX);
         return;
     }
 
@@ -100,8 +106,9 @@ bool handleMsg(command message){
         Serial.println(F("getVendorName, getVendorPartNumber, getVendorRevision, getVendorSerialNumber"));
         Serial.println(F("readASCII(startADD,endADD), getVendorSpecificInformation, getVendorDate"));
         Serial.println(F("tryAddressChange, readTemperature, readVoltage, readTxBias"));
-        Serial.println(F("readTxOut, readRxIn, readLasTemp, getDiagnostics"));
-        
+        Serial.println(F("readTxOut, readRxIn, readLasTemp, readTECCurent, getDiagnostics"));
+        Serial.println(F("escape , monitor(mode)"));
+
         Serial.println(F("More on: https://github.com/ndnq/SFP_Util"));
 
         return;
@@ -212,7 +219,26 @@ bool handleMsg(command message){
     {
         readLasTemp();
         return;
-    }    
+    }
+    if(message.cmd.equals(F("readTECCurrent")))
+    {
+        readTECCurrent();
+        return;
+    }
+
+    if(message.cmd.equals(F("escape")))
+    {
+        Handler.escape = true;
+        return;
+    }
+
+    if(message.cmd.equals(F("monitor")))
+    {
+        monitorData(message.arg1);
+        return;
+    }
+
+    
 
     Serial.println(F("Unknown command. Type \"help\" for a list of commands"));
 
@@ -663,11 +689,133 @@ void readLasTemp()
         insertAdd = 81;
         revert = true;
     }
-    Serial.print(F("Laser Temperature: "));
-    Serial.println(readFixedPointNumberS(106,107)/256.0,3);
+    Serial.print(F("Laser Temperature [C]: "));
+    Serial.println(readFixedPointNumberS(106,107)/256.0f,3);
     if(revert)
     {
         insertAdd = 80;
     }
 
+}
+
+void readTECCurrent()
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+    Serial.print(F("TEC Current [mA]: "));
+    Serial.println(readFixedPointNumberS(108,109)/10.0f,3);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+
+}
+
+void monitorData(uint8_t arg1)
+{
+    Handler.escape = false;
+    while (!Handler.escape)
+    {
+        diagReadout(arg1);
+        Handler.checkForEvents();
+    }
+    
+}
+
+void diagReadout(uint8_t arg1)
+{
+    bool revert = false;
+    if (insertAdd == 80)
+    {
+        insertAdd = 81;
+        revert = true;
+    }
+
+    if (arg1 == 0)
+    {
+    Serial.println(readFixedPointNumberS(96,97)/256.0f,3); //Temp
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+
+    }
+    if (arg1 == 1)
+    {
+    Serial.println(readFixedPointNumberUS(98,99)/10.0f,1);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+    }
+    if (arg1 == 2)
+    {
+    Serial.println(readFixedPointNumberUS(100,101)/500.0f,2);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+    }
+    if (arg1 == 3)
+    {
+    Serial.println(readFixedPointNumberUS(102,103)/10000.0f,4);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+    }
+    if (arg1 == 4)
+    {
+    Serial.println(readFixedPointNumberUS(104,105)/10000.0f,4);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+    }
+        if (arg1 == 5)
+    {
+    Serial.println(readFixedPointNumberS(106,107)/256.0f,3);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+    }
+        if (arg1 == 6)
+    {
+    Serial.println(readFixedPointNumberS(108,109)/10.0f,3);
+    if(revert)
+    {
+        insertAdd = 80;
+    }
+        return;
+    }
+    Serial.print(readFixedPointNumberS(96,97)/256.0f,3);
+    Serial.print(", ");
+    Serial.print(readFixedPointNumberUS(98,99)/10.0f,1);
+    Serial.print(", ");
+    Serial.print(readFixedPointNumberUS(100,101)/500.0f,2);
+    Serial.print(", ");
+    Serial.print(readFixedPointNumberUS(102,103)/10000.0f,4);
+    Serial.print(", ");
+    Serial.print(readFixedPointNumberUS(104,105)/10000.0f,4);
+    Serial.print(", ");
+    Serial.print(readFixedPointNumberS(106,107)/256.0f,3);
+    Serial.print(", ");
+    Serial.println(readFixedPointNumberS(108,109)/10.0f,3);
+
+
+    if(revert)
+    {
+        insertAdd = 80;
+    }
 }

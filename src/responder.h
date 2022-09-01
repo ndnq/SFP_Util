@@ -2,7 +2,12 @@
 #define RESPONDER_H
 
 #include "command.h"
+#include "handler.h"
+
+void monitorData(uint8_t arg1);
+extern handler Handler;
 bool handleMsg(command cmd);
+void diagReadout(uint8_t arg1);
 void getIdentifier();
 void getExtIdentifier();
 void getConnector();
@@ -26,4 +31,6 @@ void readTxBias();
 void readTxOUT();
 void readRxIn();
 void readLasTemp();
+void readTECCurrent();
+
 #endif

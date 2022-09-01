@@ -1,22 +1,26 @@
 
 # SFP_Util
-Simple tool allowing for easy interaction with SFP modules trough a serial port.
+Simple tool allowing for easy interaction with SFP modules through a serial port. It's made to be easily interacted with by programs and also by humans through the use of a CLI
 
-It's meant to be used on the [SATA_SFP](https://github.com/sinara-hw/SATA_SFP) board
+Hardware: [SATA_SFP](https://github.com/sinara-hw/SATA_SFP) board
 
 ## How to use:
 
-Connect the device to the computer and open a terminal of your choosing eg. TeraTerm, PuTTy. The device listens for commands. Everything that's sent not longer than 5ms apart is considered as one command.
+Connect the device to the computer and open a terminal of your choosing (eg. PuTTy, TeraTerm) then open a COM port to the device using 9600 baudrate. The device listens for commands.  Entered commands should be followed by a EOL character ('\r\n') to be handled, or the device must not have received any data in 500ms.
 
 ## List of commands
 - help - Prints available commands
-- read8(address)  - Reads 8bytes and returns the result
-- read16(address) - Reads 8bytes and returns the result
-- write8(address, value)  - Writes 8bits to the given adress
-- write16(address, value) - Writes 16bits to the given adress
+- read8(address)  - Reads 8bytes and returns the result in hexadecimal format
+- read16(address) - Reads 8bytes and returns the result in hexadecimal format
+- write8(address(DEC), value(DEC))  - Writes 8bits to the given address
+- write16(address(DEC), value(DEC)) - Writes 16bits to the given address
 - getRaw(startAdd,stopAdd) - Prints the contents of the entire memory from address startAdd to address stopAdd in a .csv friendly format (read values are in hexadecimal)
 - readASCII(startADD, endADD) - Tries to decode a string of ASCII characters located from "startADD" to "endADD"
-- tryWriting - Checks to which adresses you are able to write
+- getDiagnostics - Prints available diagnostic information
+- monitor(mode) - Constantly transmits diagnostic information. Content depends on set mode (0=Device Temp, 1=Voltage, 2=TxBias, 3=TxPower, 4=RxPower, 5=LaserTemp, 6=TECCurrent)
+- monitor - Constantly transmits all diagnostic information (order of the data is as above 0->6)
+- escape - Stops the monitoring command
+- tryWriting - Checks to which addresses you are able to write. Many sectors of data are write protected this allows you to check which ones aren't
 - setDeviceAddress - Sets the I2C address of the device we are reading from / writing to (default 0xA0(160))
 - getInfo - Prints basic information about the inserted device
 - getEncoding - Prints the encoding type
@@ -28,16 +32,20 @@ Connect the device to the computer and open a terminal of your choosing eg. Tera
 - getVendorSpecificInformation - Tries to interpret data saved in a memory region reserved to the manufacturer
 - getLinkLength - Prints supported link lengths
 - getVendorDate - Prints vendor specified manufacturing date
-- tryAddressChange(interfae) - In some SFP's it is necessary to preform this operation to have acces to the diagnostic interface. Arguments are: 0 for 2-wire interface ID memory page, 1 for Digital Diagnostic memory page
-- readTemperature - Reads Internally measured module temperature
-- readVoltage - Reads Internally measured supply voltage in transceiver
-- readTxBias - Reads Internally measured TX Bias Current
-- readTxOut - Reads Measured TX output power
-- readRxIn - Reads Measured RX input power
-- readLasTemp - Reads Measured laser temperature or wavelength
-- getDiagnostics - Prints available diagnostic information
+- tryAddressChange(interfae) - In some SFP's it is necessary to preform this operation to have access to the diagnostic interface. Arguments are: 0 for 2-wire interface ID memory page, 1 for Digital Diagnostic memory page
+- readTemperature - Reads Internally measured module temperature [C]
+- readVoltage - Reads Internally measured supply voltage in transceiver [mV]
+- readTxBias - Reads Internally measured TX Bias Current [mA]
+- readTxOut - Reads Measured TX output power [mW]
+- readRxIn - Reads Measured RX input power [mW]
+- readLasTemp - Reads Measured laser temperature or wavelength [C]
+- readTECCurrent - Reads measured TEC current [mA]
+
+
 
 ### Additional information
 ##### All input arguments are to be in decimal format without any spacing for example write8(3,56).
 ##### All output data is to be read as decimal if not stated otherwise.
+##### Unsuccessful reads result in 0xFF and not implemented diagnostic features read 0
+##### Many devices are write protected, thus by using
 
