@@ -1,5 +1,5 @@
     #include <Wire.h>
-    #include"Arduino.h"
+    #include "Arduino.h"
     #include "src/handler.h"
 
    handler Handler;
@@ -11,6 +11,7 @@
       Serial.setTimeout(500);               //Time between revieving data for it to be recognized as a command
       Handler = *new handler(micros());
       delay(5000);
+      Serial.println(">");
     }
 
     void loop() {

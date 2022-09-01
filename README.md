@@ -9,8 +9,8 @@ Hardware: [SATA_SFP](https://github.com/sinara-hw/SATA_SFP) board
 Connect the device to the computer and open a terminal of your choosing (eg. PuTTy, TeraTerm) then open a COM port to the device using 9600 baudrate. The device listens for commands.  Entered commands should be followed by a EOL character ('\r\n') to be handled, or the device must not have received any data in 500ms.
 
 ## List of commands
-- help - Prints available commands
-- read8(address)  - Reads 8bytes and returns the result in hexadecimal format
+- `help` - Prints available commands
+- `read8(address)`  - Reads 8bytes and returns the result in hexadecimal format
 - read16(address) - Reads 8bytes and returns the result in hexadecimal format
 - write8(address, value)  - Writes 8bits to the given address
 - write16(address, value) - Writes 16bits to the given address
