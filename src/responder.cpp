@@ -255,9 +255,7 @@ bool handleMsg(command message){
         monitorData(message.arg1);
         return;
     }
-
     
-
     Serial.println(F("Unknown command. Type \"help\" for a list of commands"));
 
 }
