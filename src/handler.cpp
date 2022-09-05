@@ -29,7 +29,7 @@ void handler::checkForEvents()
     if (Serial.available() > 0)
     {
         
-        String dataIn = Serial.readStringUntil('\n\r');            //Reads incoming data as ASCII characters
+        String dataIn = Serial.readStringUntil('\n');            //Reads incoming data as ASCII characters
         for (size_t i = 0; i < dataIn.length(); i++)    //Strip them of nl or rc if there are any
          {
             if (dataIn.charAt(i)=='\n'||dataIn.charAt(i)=='\r')

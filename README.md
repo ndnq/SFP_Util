@@ -6,7 +6,7 @@ Hardware: [SATA_SFP](https://github.com/sinara-hw/SATA_SFP) board
 
 ## How to use:
 
-Connect the device to the computer and open a terminal of your choosing (eg. PuTTy, TeraTerm) then open a COM port to the device using 9600 baudrate. The device listens for commands.  Entered commands should be followed by a EOL character ('\r\n') to be handled, or the device must not have received any data in 500ms.
+Connect the device to the computer and open a terminal of your choosing (eg. PuTTy, TeraTerm) then open a COM port to the device using 9600 baudrate. The device listens for commands.  Entered commands should be followed by a NL character ('\n') to be handled, or the device must not have received any data in 500ms.
 
 ## List of commands
 - `help` - Prints available commands
