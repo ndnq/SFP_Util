@@ -1,12 +1,12 @@
 
 # SFP_Util
-Simple tool allowing for easy interaction with SFP modules through a serial port. It's made to be easily interacted with by programs and by people through the use of a CLI
+Simple tool allowing for easy interaction with SFP modules through a serial port. It's made to be easily interacted with by programs and by people through the use of a CLI.
 
 Hardware: [SATA_SFP](https://github.com/sinara-hw/SATA_SFP) board
 
 ## How to use:
 
-Connect the device to the computer and open a terminal of your choosing (eg. PuTTy, TeraTerm) then open a COM port to the device using 9600 baudrate. The device listens for commands.  Entered commands should be followed by a NL character ('r') to be handled, or the device must not have received any data in 500ms.
+Connect the device to the computer and open a terminal of your choosing (eg. PuTTy, TeraTerm) then open a COM port to the device using 9600 baudrate. The device listens for commands.  Entered commands should be followed by a CR character ('\r') to be handled, or the device must not have received any data in 500ms.
 
 ## List of commands
 - `help` - Prints available commands
